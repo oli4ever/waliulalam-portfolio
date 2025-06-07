@@ -1,0 +1,1 @@
+import{j as e}from"./three-Cfsn-QPA.js";const r=({title:s,sub:t})=>e.jsxs("div",{className:"flex flex-col items-center gap-5",children:[e.jsx("div",{className:"hero-badge",children:e.jsx("p",{children:t})}),e.jsx("div",{children:e.jsx("h1",{className:"font-semibold md:text-5xl text-3xl text-center",children:s})})]});export{r as T};

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js GLB Exporter</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .download-button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .download-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #loadingText {
+            margin-left: 10px;
+            color: #333;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button id="downloadGLB" class="download-button">Export as GLB</button>
+        <span id="loadingText">Exporting scene...</span>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script>
+        // THREE.js Scene Setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xeeeeee);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add some sample objects
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshStandardMaterial({ 
+            color: 0x00ff00,
+            metalness: 0.5,
+            roughness: 0.2
+        });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(1, 1, 1);
+        scene.add(light);
+        scene.add(new THREE.AmbientLight(0x404040));
+
+        camera.position.z = 5;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.005;
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // GLB Exporter Code
+        function exportGLTF(scene) {
+            const gltf = {
+                asset: {
+                    version: "2.0",
+                    generator: "THREE.js GLB Exporter"
+                },
+                scene: 0,
+                scenes: [{
+                    nodes: []
+                }],
+                nodes: [],
+                meshes: [],
+                materials: [],
+                accessors: [],
+                bufferViews: [],
+                buffers: [{
+                    byteLength: 0
+                }]
+            };
+
+            const binaryData = [];
+            let byteOffset = 0;
+
+            function padBuffer(buffer, paddingByte = 0) {
+                const padding = (4 - (buffer.length % 4)) % 4;
+                if (padding === 0) return buffer;
+                
+                const padded = new Uint8Array(buffer.length + padding);
+                padded.set(buffer);
+                for (let i = buffer.length; i < padded.length; i++) {
+                    padded[i] = paddingByte;
+                }
+                return padded;
+            }
+
+            function calculateMinMax(array, componentCount) {
+                const min = new Array(componentCount).fill(Infinity);
+                const max = new Array(componentCount).fill(-Infinity);
+                
+                for (let i = 0; i < array.length; i += componentCount) {
+                    for (let j = 0; j < componentCount; j++) {
+                        const value = array[i + j];
+                        min[j] = Math.min(min[j], value);
+                        max[j] = Math.max(max[j], value);
+                    }
+                }
+                
+                return { min, max };
+            }
+
+            scene.traverse((object) => {
+                if (!object.isMesh) return;
+
+                const geometry = object.geometry;
+                if (!geometry || !geometry.attributes.position) return;
+
+                if (!geometry.attributes.normal) {
+                    geometry.computeVertexNormals();
+                }
+
+                const positionAttribute = geometry.attributes.position;
+                const normalAttribute = geometry.attributes.normal;
+                const indexAttribute = geometry.index;
+
+                // Process position data
+                const positionArray = new Float32Array(positionAttribute.array);
+                let positionBuffer = new Uint8Array(positionArray.buffer, positionArray.byteOffset, positionArray.byteLength);
+                positionBuffer = padBuffer(positionBuffer);
+                
+                binaryData.push(positionBuffer);
+                
+                const positionBufferViewIndex = gltf.bufferViews.length;
+                gltf.bufferViews.push({
+                    buffer: 0,
+                    byteOffset: byteOffset,
+                    byteLength: positionBuffer.length,
+                    target: 34962 // ARRAY_BUFFER
+                });
+                
+                const { min: posMin, max: posMax } = calculateMinMax(positionArray, 3);
+                const positionAccessorIndex = gltf.accessors.length;
+                gltf.accessors.push({
+                    bufferView: positionBufferViewIndex,
+                    componentType: 5126, // FLOAT
+                    count: positionAttribute.count,
+                    type: "VEC3",
+                    max: posMax,
+                    min: posMin
+                });
+                
+                byteOffset += positionBuffer.length;
+
+                // Process normal data
+                let normalAccessorIndex = null;
+                if (normalAttribute) {
+                    const normalArray = new Float32Array(normalAttribute.array);
+                    let normalBuffer = new Uint8Array(normalArray.buffer, normalArray.byteOffset, normalArray.byteLength);
+                    normalBuffer = padBuffer(normalBuffer);
+                    
+                    binaryData.push(normalBuffer);
+                    
+                    const normalBufferViewIndex = gltf.bufferViews.length;
+                    gltf.bufferViews.push({
+                        buffer: 0,
+                        byteOffset: byteOffset,
+                        byteLength: normalBuffer.length,
+                        target: 34962
+                    });
+                    
+                    normalAccessorIndex = gltf.accessors.length;
+                    gltf.accessors.push({
+                        bufferView: normalBufferViewIndex,
+                        componentType: 5126,
+                        count: normalAttribute.count,
+                        type: "VEC3"
+                    });
+                    
+                    byteOffset += normalBuffer.length;
+                }
+
+                // Process index data
+                let indexAccessorIndex = null;
+                if (indexAttribute) {
+                    let indexArray, componentType;
+                    
+                    if (indexAttribute.array instanceof Uint16Array) {
+                        indexArray = new Uint16Array(indexAttribute.array);
+                        componentType = 5123; // UNSIGNED_SHORT
+                    } else {
+                        indexArray = new Uint32Array(indexAttribute.array);
+                        componentType = 5125; // UNSIGNED_INT
+                    }
+                    
+                    let indexBuffer = new Uint8Array(indexArray.buffer, indexArray.byteOffset, indexArray.byteLength);
+                    indexBuffer = padBuffer(indexBuffer);
+                    
+                    binaryData.push(indexBuffer);
+                    
+                    const indexBufferViewIndex = gltf.bufferViews.length;
+                    gltf.bufferViews.push({
+                        buffer: 0,
+                        byteOffset: byteOffset,
+                        byteLength: indexBuffer.length,
+                        target: 34963 // ELEMENT_ARRAY_BUFFER
+                    });
+                    
+                    indexAccessorIndex = gltf.accessors.length;
+                    gltf.accessors.push({
+                        bufferView: indexBufferViewIndex,
+                        componentType: componentType,
+                        count: indexAttribute.count,
+                        type: "SCALAR"
+                    });
+                    
+                    byteOffset += indexBuffer.length;
+                }
+
+                // Create material
+                const materialIndex = gltf.materials.length;
+                const material = object.material;
+                
+                gltf.materials.push({
+                    name: (object.name || "Object") + "_material",
+                    pbrMetallicRoughness: {
+                        baseColorFactor: [
+                            material.color ? material.color.r : 1.0,
+                            material.color ? material.color.g : 1.0,
+                            material.color ? material.color.b : 1.0,
+                            material.opacity !== undefined ? material.opacity : 1.0
+                        ],
+                        metallicFactor: material.metalness !== undefined ? material.metalness : 0.0,
+                        roughnessFactor: material.roughness !== undefined ? material.roughness : 0.8
+                    },
+                    alphaMode: material.transparent ? "BLEND" : "OPAQUE",
+                    doubleSided: material.side === 2
+                });
+
+                // Create mesh
+                const meshIndex = gltf.meshes.length;
+                const attributes = {
+                    POSITION: positionAccessorIndex
+                };
+                
+                if (normalAccessorIndex !== null) {
+                    attributes.NORMAL = normalAccessorIndex;
+                }
+                
+                const primitive = {
+                    attributes: attributes,
+                    material: materialIndex
+                };
+                
+                if (indexAccessorIndex !== null) {
+                    primitive.indices = indexAccessorIndex;
+                }
+                
+                gltf.meshes.push({
+                    name: (object.name || "Object") + "_mesh",
+                    primitives: [primitive]
+                });
+
+                // Create node
+                const nodeIndex = gltf.nodes.length;
+                const node = {
+                    name: object.name || ("Node_" + nodeIndex),
+                    mesh: meshIndex
+                };
+                
+                const position = object.position.toArray();
+                const rotation = object.quaternion.toArray();
+                const scale = object.scale.toArray();
+                
+                if (position.some(v => v !== 0)) {
+                    node.translation = position;
+                }
+                
+                if (rotation.some((v, i) => i === 3 ? v !== 1 : v !== 0)) {
+                    node.rotation = rotation;
+                }
+                
+                if (scale.some(v => v !== 1)) {
+                    node.scale = scale;
+                }
+                
+                gltf.nodes.push(node);
+
+                // Add to scene
+                gltf.scenes[0].nodes.push(nodeIndex);
+            });
+
+            // Update buffer length
+            gltf.buffers[0].byteLength = byteOffset;
+
+            // Combine all binary data
+            const combinedBuffer = new Uint8Array(byteOffset);
+            let offset = 0;
+            binaryData.forEach(buffer => {
+                combinedBuffer.set(buffer, offset);
+                offset += buffer.length;
+            });
+
+            return { gltf, binary: combinedBuffer };
+        }
+
+        function createGLB(gltfData) {
+            const { gltf, binary } = gltfData;
+            
+            // Convert GLTF to JSON
+            const jsonText = JSON.stringify(gltf);
+            const jsonBuffer = new TextEncoder().encode(jsonText);
+            
+            // Pad JSON to 4-byte boundary
+            const jsonPadding = (4 - (jsonBuffer.length % 4)) % 4;
+            const jsonPadded = new Uint8Array(jsonBuffer.length + jsonPadding);
+            jsonPadded.set(jsonBuffer);
+            for (let i = jsonBuffer.length; i < jsonPadded.length; i++) {
+                jsonPadded[i] = 0x20; // Space character
+            }
+
+            // Pad binary data to 4-byte boundary
+            const binaryPadding = (4 - (binary.length % 4)) % 4;
+            const binaryPadded = new Uint8Array(binary.length + binaryPadding);
+            binaryPadded.set(binary);
+
+            // Calculate total GLB length
+            const headerLength = 12;
+            const jsonChunkHeaderLength = 8;
+            const binaryChunkHeaderLength = 8;
+            const totalLength = headerLength + 
+                               jsonChunkHeaderLength + jsonPadded.length + 
+                               binaryChunkHeaderLength + binaryPadded.length;
+
+            // Create GLB ArrayBuffer
+            const glb = new ArrayBuffer(totalLength);
+            const view = new DataView(glb);
+            let offset = 0;
+
+            // Write GLB header
+            view.setUint32(offset, 0x46546C67, true); // Magic: "glTF"
+            offset += 4;
+            view.setUint32(offset, 2, true); // Version
+            offset += 4;
+            view.setUint32(offset, totalLength, true); // Total length
+            offset += 4;
+
+            // Write JSON chunk
+            view.setUint32(offset, jsonPadded.length, true); // Chunk length
+            offset += 4;
+            view.setUint32(offset, 0x4E4F534A, true); // Chunk type: "JSON"
+            offset += 4;
+            new Uint8Array(glb, offset, jsonPadded.length).set(jsonPadded);
+            offset += jsonPadded.length;
+
+            // Write binary chunk (if exists)
+            if (binaryPadded.length > 0) {
+                view.setUint32(offset, binaryPadded.length, true); // Chunk length
+                offset += 4;
+                view.setUint32(offset, 0x004E4942, true); // Chunk type: "BIN\0"
+                offset += 4;
+                new Uint8Array(glb, offset, binaryPadded.length).set(binaryPadded);
+            }
+
+            return glb;
+        }
+
+        function validateGLTF(gltf) {
+            const errors = [];
+            
+            // Required asset field
+            if (!gltf.asset || !gltf.asset.version) {
+                errors.push('Missing required asset.version');
+            }
+            
+            // Must have at least one scene
+            if (!gltf.scenes || gltf.scenes.length === 0) {
+                errors.push('No scenes defined');
+            }
+            
+            // Default scene must exist
+            if (gltf.scene === undefined || gltf.scene >= gltf.scenes.length) {
+                errors.push('Invalid default scene specified');
+            }
+            
+            // Validate all node references
+            gltf.scenes.forEach((scene, sceneIndex) => {
+                if (!scene.nodes) return;
+                
+                scene.nodes.forEach((nodeIndex) => {
+                    if (nodeIndex >= gltf.nodes.length) {
+                        errors.push(`Scene ${sceneIndex} references invalid node ${nodeIndex}`);
+                    }
+                });
+            });
+            
+            // Validate all mesh references
+            gltf.nodes.forEach((node, nodeIndex) => {
+                if (node.mesh !== undefined && node.mesh >= gltf.meshes.length) {
+                    errors.push(`Node ${nodeIndex} references invalid mesh ${node.mesh}`);
+                }
+            });
+            
+            // Validate bufferViews reference existing buffers
+            gltf.bufferViews.forEach((bufferView, viewIndex) => {
+                if (bufferView.buffer >= gltf.buffers.length) {
+                    errors.push(`BufferView ${viewIndex} references invalid buffer ${bufferView.buffer}`);
+                }
+            });
+            
+            // Validate accessors reference existing bufferViews
+            gltf.accessors.forEach((accessor, accessorIndex) => {
+                if (accessor.bufferView >= gltf.bufferViews.length) {
+                    errors.push(`Accessor ${accessorIndex} references invalid bufferView ${accessor.bufferView}`);
+                }
+            });
+            
+            return errors;
+        }
+
+        // Set up download button
+        document.getElementById('downloadGLB').addEventListener('click', async () => {
+            const loadingText = document.getElementById('loadingText');
+            const downloadBtn = document.getElementById('downloadGLB');
+            
+            if (loadingText) loadingText.style.display = 'inline';
+            if (downloadBtn) downloadBtn.disabled = true;
+            
+            try {
+                // Export to GLTF structure
+                const gltfData = exportGLTF(scene);
+                
+                // Validate GLTF before creating GLB
+                const errors = validateGLTF(gltfData.gltf);
+                if (errors.length > 0) {
+                    throw new Error('Invalid GLTF structure: ' + errors.join(', '));
+                }
+
+                // Create GLB file
+                const glb = createGLB(gltfData);
+                
+                // Create download link
+                const blob = new Blob([glb], { type: 'model/gltf-binary' });
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'scene.glb';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Clean up
+                setTimeout(() => URL.revokeObjectURL(url), 100);
+                
+                console.log('Scene exported successfully!');
+                
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Export failed: ' + error.message);
+            } finally {
+                if (loadingText) loadingText.style.display = 'none';
+                if (downloadBtn) downloadBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
