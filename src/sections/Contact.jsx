@@ -112,105 +112,96 @@ const Contact = () => {
     try {
       console.log("Attempting to send email...");
 
-      // Determine API URL and method based on environment
-      const isDevelopment = window.location.hostname === "localhost";
-      const hasApiServer = true; // Set to false if you don't want to use the API server
+      // Simplified API URL logic
+      const isLocalhost =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
+      const apiUrl = isLocalhost ? "/api/send-email" : "/api/send-email";
 
-      let response;
+      console.log("Using API URL:", apiUrl);
+      console.log("Current hostname:", window.location.hostname);
+      console.log("Form data:", {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        messageLength: form.message.trim().length,
+      });
 
-      if (isDevelopment && !hasApiServer) {
-        // Development fallback - simulate email sending
-        console.log("Using development simulation mode");
-        response = await simulateEmailSending();
-      } else {
-        // Use actual API
-        const apiUrl =
-          isDevelopment && hasApiServer
-            ? "http://localhost:5000/api/send-email"
-            : "/api/send-email";
+      // Create abort controller for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        console.log("Request timeout triggered");
+        controller.abort();
+      }, 30000); // Increased timeout for Vercel
 
-        console.log("Using API URL:", apiUrl);
-        console.log("Form data:", {
+      const fetchResponse = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
           name: form.name.trim(),
           email: form.email.trim(),
-          messageLength: form.message.trim().length,
-        });
+          message: form.message.trim(),
+        }),
+        signal: controller.signal,
+      });
 
-        // Create abort controller for timeout
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => {
-          console.log("Request timeout triggered");
-          controller.abort();
-        }, 25000);
+      clearTimeout(timeoutId);
 
-        const fetchResponse = await fetch(apiUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: form.name.trim(),
-            email: form.email.trim(),
-            message: form.message.trim(),
-          }),
-          signal: controller.signal,
-        });
+      console.log("Response received:");
+      console.log("Status:", fetchResponse.status);
+      console.log("Status Text:", fetchResponse.statusText);
+      console.log(
+        "Headers:",
+        Object.fromEntries(fetchResponse.headers.entries())
+      );
 
-        clearTimeout(timeoutId);
+      let responseData;
+      const contentType = fetchResponse.headers.get("content-type");
 
-        console.log("Response received:");
-        console.log("Status:", fetchResponse.status);
-        console.log("Status Text:", fetchResponse.statusText);
-
-        let responseData;
-        const contentType = fetchResponse.headers.get("content-type");
-
-        if (contentType && contentType.includes("application/json")) {
-          try {
-            responseData = await fetchResponse.json();
-            console.log("Response data:", responseData);
-          } catch (jsonError) {
-            console.error("Failed to parse JSON response:", jsonError);
-            const textResponse = await fetchResponse.text();
-            console.log("Raw response:", textResponse);
-            throw new Error(
-              `Invalid JSON response: ${textResponse.substring(0, 200)}...`
-            );
-          }
-        } else {
+      if (contentType && contentType.includes("application/json")) {
+        try {
+          responseData = await fetchResponse.json();
+          console.log("Response data:", responseData);
+        } catch (jsonError) {
+          console.error("Failed to parse JSON response:", jsonError);
           const textResponse = await fetchResponse.text();
-          console.log("Non-JSON response:", textResponse);
+          console.log("Raw response:", textResponse);
           throw new Error(
-            `Server returned non-JSON response: ${textResponse.substring(
-              0,
-              200
-            )}...`
+            `Invalid JSON response: ${textResponse.substring(0, 200)}...`
           );
         }
-
-        if (!fetchResponse.ok) {
-          console.error(
-            "Server returned error:",
-            fetchResponse.status,
-            responseData
-          );
-          const errorMessage =
-            responseData?.error ||
-            responseData?.message ||
-            `Server error: ${fetchResponse.status} ${fetchResponse.statusText}`;
-          throw new Error(errorMessage);
-        }
-
-        if (!responseData.success) {
-          console.error("Email sending failed:", responseData);
-          throw new Error(responseData.error || "Failed to send message");
-        }
-
-        response = responseData;
+      } else {
+        const textResponse = await fetchResponse.text();
+        console.log("Non-JSON response:", textResponse);
+        throw new Error(
+          `Server returned non-JSON response: ${textResponse.substring(
+            0,
+            200
+          )}...`
+        );
       }
 
-      console.log("Email sent successfully:", response);
+      if (!fetchResponse.ok) {
+        console.error(
+          "Server returned error:",
+          fetchResponse.status,
+          responseData
+        );
+        const errorMessage =
+          responseData?.error ||
+          responseData?.message ||
+          `Server error: ${fetchResponse.status} ${fetchResponse.statusText}`;
+        throw new Error(errorMessage);
+      }
+
+      if (!responseData.success) {
+        console.error("Email sending failed:", responseData);
+        throw new Error(responseData.error || "Failed to send message");
+      }
+
+      console.log("Email sent successfully:", responseData);
 
       // Success! Reset form and show success message
       setForm({ name: "", email: "", message: "" });
@@ -231,15 +222,11 @@ const Contact = () => {
           "Request timed out. The server may be busy. Please try again in a moment.";
       } else if (
         error.message.includes("fetch") ||
-        error.message.includes("NetworkError")
+        error.message.includes("NetworkError") ||
+        error.message.includes("Failed to fetch")
       ) {
-        if (window.location.hostname === "localhost") {
-          errorMessage =
-            "Development server not running. Please start the API server or check your configuration.";
-        } else {
-          errorMessage =
-            "Network error. Please check your internet connection and try again.";
-        }
+        errorMessage =
+          "Network error. Please check your internet connection and try again. If the problem persists, the server may be temporarily unavailable.";
       } else if (error.message.includes("EAUTH")) {
         errorMessage =
           "Email authentication failed. Please contact the site administrator.";
@@ -277,8 +264,9 @@ const Contact = () => {
                 className="w-full flex flex-col gap-7"
                 noValidate
               >
-                {/* Development mode indicator */}
-                {window.location.hostname === "localhost" && (
+                {/* Environment indicator */}
+                {(window.location.hostname === "localhost" ||
+                  window.location.hostname === "127.0.0.1") && (
                   <div className="text-blue-700 bg-blue-50 p-3 rounded-md border border-blue-200 text-sm">
                     <div className="flex items-center">
                       <svg
@@ -292,8 +280,7 @@ const Contact = () => {
                           clipRule="evenodd"
                         />
                       </svg>
-                      {/* Development Mode: Make sure API server is running on port
-                      3000 */}
+                      Development Mode: Using local API
                     </div>
                   </div>
                 )}
