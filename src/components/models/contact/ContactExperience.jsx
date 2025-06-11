@@ -47,7 +47,7 @@ const ContactExperience = () => {
       </mesh>
 
       {/* Computer - adjusted scale and position */}
-      <group scale={0.015} position={[0, -1.5, 0]}>
+      <group scale={0.013} position={[0.2, -1.6, 0]}>
         <Computer />
       </group>
     </Canvas>

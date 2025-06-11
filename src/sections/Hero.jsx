@@ -67,7 +67,7 @@ const Hero = () => {
         <figure>
           <div className="hero-image-layout">
             <Canvas
-              style={{ position: "absolute", top: 0, right: 300, zIndex: 1 }}
+              style={{ position: "absolute", top: 0, right: 100, zIndex: 1 }}
             >
               <Particles count={100} />
             </Canvas>

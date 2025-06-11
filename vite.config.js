@@ -6,15 +6,6 @@ export default defineConfig({
   css: {
     postcss: './postcss.config.js',
   },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-        secure: false,
-      }
-    }
-  },
   build: {
     chunkSizeWarningLimit: 1600,
     rollupOptions: {

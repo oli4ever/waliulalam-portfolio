@@ -53,7 +53,7 @@ const NavBar = () => {
           } fixed py-6 top-16 left-0 right-0 bottom-0 bg-black lg:static lg:flex lg:mx-auto lg:bg-transparent`}
         >
           <div className="relative z-2 flex flex-col items-center justify-center m-auto lg:flex-row w-full">
-            <div className="flex flex-col items-center justify-center w-full lg:flex-row lg:justify-end max-lg:bg-black max-lg:py-17">
+            <div className="flex flex-col items-center justify-center w-full lg:flex-row lg:justify-end max-lg:bg-black max-lg:py-20">
               {navLinks.map((item) => (
                 <a
                   key={item.name}
@@ -70,10 +70,25 @@ const NavBar = () => {
 
               {/* Mobile Contact Button */}
               <a
-                href="#contact"
+                href="mailto:oli.cste10@gmail.com"
                 onClick={handleClick}
-                className="lg:hidden mt-8 px-4 py-3 rounded-lg bg-white text-black hover:bg-gray-200 transition-colors duration-300"
+                className="lg:hidden flex mt-8 items-center gap-2 px-5 py-3 rounded-lg bg-white text-black hover:bg-gray-200 transition-colors duration-300"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="group-hover:stroke-white transition-colors duration-300"
+                >
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
                 <span className="group-hover:text-white transition-colors duration-300">
                   Contact me
                 </span>
@@ -83,8 +98,23 @@ const NavBar = () => {
         </nav>
 
         {/* Desktop Contact Button */}
-        <a href="#contact" className="contact-btn group">
-          <div className="hidden lg:flex px-5 py-3 rounded-lg bg-white text-black group-hover:bg-black-50 transition-colors duration-300">
+        <a href="mailto:oli.cste10@gmail.com" className="contact-btn group">
+          <div className="hidden lg:flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-black group-hover:bg-black-50 transition-colors duration-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="group-hover:stroke-white transition-colors duration-300"
+            >
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
             <span className="group-hover:text-white transition-colors duration-300">
               Contact me
             </span>

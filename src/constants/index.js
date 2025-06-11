@@ -11,10 +11,6 @@ const navLinks = [
     name: "Skills",
     link: "#skills",
   },
-  {
-    name: "Testimonials",
-    link: "#testimonials",
-  },
 ];
 
 const words = [
@@ -378,53 +374,18 @@ const expLogos = [
   },
 ];
 
-const testimonials = [
-  {
-    name: "Esther Howard",
-    mentions: "@estherhoward",
-    review:
-      "Waliul delivered exceptional results on our complex web development project, transforming challenging requirements into a flawless, high-performing website. His technical expertise and innovative problem-solving skills consistently exceeded our expectations, resulting in a 30% improvement in site performance metrics. What truly sets Waliul apart is his ability to balance technical precision with user-centric design - a rare combination that delivers tangible business value.",
-    imgPath: "/images/client1.png",
-  },
-  {
-    name: "Wade Warren",
-    mentions: "@wadewarren",
-    review:
-      "Waliul expertly modernized our outdated site into a high-performing platform, boosting engagement by 40%. His exceptional technical skills, precision, and dedication deliver outstanding results. An invaluable partner for transformative web solutions.",
-    imgPath: "/images/client3.png",
-  },
-  {
-    name: "Guy Hawkins",
-    mentions: "@guyhawkins",
-    review:
-      "Waliul delivered exceptional results with remarkable professionalism, transforming our digital presence. A truly valuable partner for impactful, high-quality web solutions.",
-    imgPath: "/images/client2.png",
-  },
-  {
-    name: "Marvin McKinney",
-    mentions: "@marvinmckinney",
-    review:
-      "Waliul transformed our outdated website into a modern, high-converting platform, improving user engagement by 45%. His technical expertise and UX focus delivered exceptional results. Highly recommend for impactful, performance-driven web solutions.",
-    imgPath: "/images/client5.png",
-  },
-  {
-    name: "Floyd Miles",
-    mentions: "@floydmiles",
-    review:
-      "Waliul's technical mastery transformed our e-commerce platform, driving a 60% increase in online sales. His scalable solutions and strategic approach deliver measurable business growth. An exceptional developer for high-impact digital projects.",
-    imgPath: "/images/client4.png",
-  },
-  {
-    name: "Albert Flores",
-    mentions: "@albertflores",
-    review:
-      "Waliul demonstrated exceptional technical expertise and professionalism in delivering a website that not only met but significantly exceeded our business requirements. A truly valuable partner for transformative digital solutions.",
-    imgPath: "/images/client6.png",
-  },
-];
-
 const socialImgs = [
   
+  {
+    name: "call",
+    imgPath: "/images/call.png",
+    url:"tel:+8801720235330",
+  },
+  {
+    name: "whatsapp",
+    imgPath: "/images/whatsapp.png",  // You'll need to add a WhatsApp icon image
+    url: "https://wa.me/8801720235330",  // WhatsApp link with your number
+  },
   {
     name: "fb",
     imgPath: "/images/fb.png",
@@ -459,7 +420,6 @@ export {
   counterItems,
   expCards,
   expLogos,
-  testimonials,
   socialImgs,
   techStackIcons,
   techStackImgs,
