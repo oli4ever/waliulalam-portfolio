@@ -101,7 +101,7 @@ const Experience = () => {
           <div className="relative z-50 xl:space-y-32 space-y-10">
             {expCards.map((card) => (
               <div key={card.title} className="exp-card-wrapper">
-                <div className="max-md:min-w-80 min-w-100 min-h-100">
+                <div className="max-md:min-w-90 min-w-100 min-h-100">
                   <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
                     <ContactExperience />
                   </div>
@@ -117,7 +117,7 @@ const Experience = () => {
                   <div className="flex items-start">
                     <div className="timeline-wrapper">
                       <div className="timeline" />
-                      <div className="gradient-line ml-8 max-lg:ml-0 w-1 h-full max-lg:h-[60%]" />
+                      <div className="gradient-line w-1 h-full max-lg:h-[60%]" />
                     </div>
                     <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
                       <div className="timeline-logo">
