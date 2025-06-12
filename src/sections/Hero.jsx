@@ -67,11 +67,22 @@ const Hero = () => {
         <figure>
           <div className="hero-image-layout">
             <Canvas
-              style={{ position: "absolute", top: 0, right: 100, zIndex: 1 }}
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 150,
+                zIndex: 0,
+                width: "100%",
+                height: "100%",
+              }}
             >
               <Particles count={100} />
             </Canvas>
-            <img src="/images/Oli.png" alt="Mohammad Waliul Alam" />
+            <img
+              src="/images/Oli.png"
+              alt="Mohammad Waliul Alam"
+              className="relative z-10"
+            />
           </div>
         </figure>
       </div>

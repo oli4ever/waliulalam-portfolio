@@ -260,7 +260,7 @@ section {
   }
 
   .timeline-wrapper {
-    @apply absolute top-0 xl:left-[35.5vw] md:left-10 left-5 h-full flex justify-center;
+    @apply absolute top-0 xl:left-[38vw] md:left-10 left-5 h-full flex justify-center;
   }
 
   .timeline {
@@ -268,7 +268,7 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 md:translate-x-3 border-[8px] border-blue-100 bg-black-200;
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border-[8px] border-blue-100 bg-black-200;
   }
 
   .exp-card-wrapper {
