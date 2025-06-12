@@ -260,7 +260,7 @@ section {
   }
 
   .timeline-wrapper {
-    @apply absolute top-0 xl:left-[38vw] md:left-10 left-5 h-full flex justify-center;
+    @apply absolute top-0 xl:left-[34.3vw] md:left-10 left-5 h-full flex justify-center;
   }
 
   .timeline {
