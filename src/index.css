@@ -122,7 +122,37 @@ section {
   }
 
   .hero-image-layout {
-    @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:top-10 max-sm:top-100 top-140 xl:-right-120 max-sm:right-0 -right-40;
+    @apply w-full h-full min-h-[50vh] absolute;
+
+    top: 35rem;
+    right: -10rem;
+
+    @media (max-width: 640px) {
+      top: 25rem;
+      right: 0rem;
+    }
+
+    @media (min-width: 768px) {
+      right: -2rem;
+    }
+
+    @media (min-width: 1280px) {
+      width: 70%;
+      top: 5.5rem;
+      right: -30rem;
+    }
+
+    @media (min-width: 1366px) {
+      top: 3.5rem;
+    }
+
+    @media (min-width: 1440px) {
+      top: 8.5rem;
+    }
+
+    @media (min-width: 1920px) {
+      top: 19rem;
+    }
   }
 
   .navbar {

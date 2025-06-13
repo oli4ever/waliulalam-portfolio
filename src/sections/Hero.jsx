@@ -70,7 +70,7 @@ const Hero = () => {
               style={{
                 position: "absolute",
                 top: 0,
-                right: 150,
+                right: 200,
                 zIndex: 0,
                 width: "100%",
                 height: "100%",
