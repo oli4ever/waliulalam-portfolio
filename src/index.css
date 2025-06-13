@@ -273,7 +273,10 @@ section {
     }
 
     @media (min-width: 1440px) {
-      left: 35.8vw;
+      left: 36.2vw;
+    }
+    @media (min-width: 1500px) {
+      left: 34.2vw;
     }
     @media (min-width: 1536px) {
       left: 32.5vw;
