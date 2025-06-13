@@ -8,11 +8,12 @@ import Particles from "../components/models/hero_models/Particles";
 
 const Hero = () => {
   useGSAP(() => {
-    gsap.fromTo(
+    const tl = gsap.fromTo(
       ".hero-text h1",
       { y: 50, opacity: 0 },
       { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
     );
+    return () => tl.kill();
   });
 
   return (
@@ -76,7 +77,7 @@ const Hero = () => {
                 height: "100%",
               }}
             >
-              <Particles count={100} />
+              <Particles count={50} />
             </Canvas>
             <img
               src="/images/Oli.png"
