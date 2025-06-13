@@ -4,7 +4,7 @@
 [![GitHub](https://img.shields.io/badge/source-code-blue)](https://github.com/oli4ever/waliulalam-portfolio)
 [![License](https://img.shields.io/badge/license-MIT-orange)](LICENSE)
 
-![Portfolio Screenshot](https://i.imgur.com/vkNBxe1.png)
+![Portfolio Screenshot](https://i.imgur.com/Mg7oI3S.png)
 
 Welcome to my personal portfolio website showcasing my skills, projects, and professional journey.
 
