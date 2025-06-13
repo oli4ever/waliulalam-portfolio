@@ -260,11 +260,28 @@ section {
   }
 
   .timeline-wrapper {
-    @apply absolute top-0 xl:left-[34.3vw] md:left-10 left-5 h-full flex justify-center;
+    @apply absolute top-0 h-full flex justify-center;
+
+    left: 1.25rem;
+
+    @media (min-width: 768px) {
+      left: 2.5rem;
+    }
+
+    @media (min-width: 1280px) {
+      left: 37.8vw;
+    }
+
+    @media (min-width: 1440px) {
+      left: 35.8vw;
+    }
+    @media (min-width: 1536px) {
+      left: 32.5vw;
+    }
   }
 
   .timeline {
-    @apply absolute z-30 h-[110%] -top-10 w-14 md:w-28 bg-black;
+    @apply absolute z-30 h-[60%] md:h-[53%] lg:h-[50%] xl:h-full -top-10 w-14 md:w-28 bg-black;
   }
 
   .timeline-logo {

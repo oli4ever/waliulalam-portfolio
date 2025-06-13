@@ -110,7 +110,7 @@ const Experience = () => {
                   <div className="flex items-start">
                     <div className="timeline-wrapper">
                       <div className="timeline" />
-                      <div className="gradient-line w-1 h-[63%] md:h-[60%] lg:h-full" />
+                      <div className="gradient-line w-1 h-[60%] md:h-[53%] lg:h-[50%] xl:h-full" />
                     </div>
                     <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
                       <div className="timeline-logo">
