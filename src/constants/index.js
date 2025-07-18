@@ -241,6 +241,42 @@ export const myProjects = [
       },
     ],
   },
+  {
+    title: 'SavoryGrid -A Modern Restaurant Website Template',
+    desc: 'A sleek, high-performance restaurant website template built with React, Vite & Tailwind CSS. Perfect for cafes, bistros, and fine dining businesses looking for a responsive, SEO-friendly, and visually stunning online presence.',
+    subdesc:
+      'It features responsive design, fast-loading with Vite optimization, modern UI components, optimized performance for restaurant businesses & easy customization for any restaurant niche',
+    href: 'https://savorygrid.vercel.app/',
+    texture: '/images/textures/project6.jpg',
+    logo: '/images/logos/project-logo6.png',
+    logoStyle: {
+      backgroundColor: '#0E1F38',
+      border: '0.2px solid #0E2D58',
+      boxShadow: '0px 0px 40px 0px #5d8fd5',
+    },
+    tags: [
+      {
+        id: 1,
+        name: 'React.js',
+        path: '/images/react.svg',
+      },
+      {
+        id: 2,
+        name: 'TailwindCSS',
+        path: '/images/tailwindcss.png',
+      },
+      {
+        id: 3,
+        name: 'VITE',
+        path: '/images/Vite.png',
+      },
+      {
+        id: 4,
+        name: 'VERCEL',
+        path: '/images/Vercel.png',
+      },
+    ],
+  },
 ];
 
 const logoIconsList = [
