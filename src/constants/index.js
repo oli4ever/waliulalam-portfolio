@@ -250,7 +250,7 @@ export const myProjects = [
     texture: '/images/textures/project6.jpg',
     logo: '/images/logos/project-logo6.png',
     logoStyle: {
-      backgroundColor: '#0E1F38',
+      backgroundColor: '#ebf1fa',
       border: '0.2px solid #0E2D58',
       boxShadow: '0px 0px 40px 0px #5d8fd5',
     },
@@ -358,6 +358,18 @@ const techStackImgs = [
 
 const techStackIcons = [
   {
+    name: "JavaScript Developer",
+    modelPath: "/models/javascript.glb",
+    scale: 4,
+    rotation: [0, 0, 0],
+  },
+  {
+    name: "Tailwind CSS Developer",
+    modelPath: "/models/tailwind_css.glb",
+    scale: 2,
+    rotation: [0, 0, 0],
+  },
+  {
     name: "React Developer",
     modelPath: "/models/react_logo-transformed.glb",
     scale: 1,
@@ -418,8 +430,8 @@ const socialImgs = [
   },
   {
     name: "whatsapp",
-    imgPath: "/images/whatsapp.png",  // You'll need to add a WhatsApp icon image
-    url: "https://wa.me/8801720235330",  // WhatsApp link with your number
+    imgPath: "/images/whatsapp.png",  
+    url: "https://wa.me/8801720235330",  
   },
   {
     name: "fb",
