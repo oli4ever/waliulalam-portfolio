@@ -391,10 +391,8 @@ const techStackIcons = [
 
 const expCards = [
   {
-    review: "Waliul’s blend of creativity and technical mastery elevated our frontend development to new heights. His optimizations improved our application’s performance by 40%, directly enhancing user engagement and reducing bounce rates. His ability to balance innovative design with clean, efficient code made him an invaluable asset to our team. The faster, smoother experiences he delivered consistently exceeded our expectations—proof of his skill as a top-tier frontend developer.",
-    imgPath: "/images/github.png",
     logoPath: "/images/github-logo.png",
-    title: "Frontend Developer - GitHub",
+    title: "Self-Employed Frontend Developer - GitHub",
     date: "February 2024 - Present",
     responsibilities: [
       "Developed high-performance, SEO-optimized websites with lightning-fast load times to enhance user engagement and search rankings.",
@@ -402,6 +400,34 @@ const expCards = [
       "Wrote clean, modular, and maintainable code following best practices for scalable and collaborative development.",
       "Delivered cost-effective, business-ready web solutions tailored for startups and SMEs, balancing quality with budget efficiency.",
       "Optimized web applications for peak speed and scalability."
+    ],
+  },
+  {
+    logoPath: "/images/kenpark_logo.png",
+    title: "Senior Executive, IT - Kenpark Bangladesh Apparel (Pvt.) Limited",
+    date: "April 2016 - January 2024",
+    responsibilities: [
+      "Developed and implemented IT infrastructure strategies aligned with organizational goals for seamless operations.",
+      "Ensured smooth integration of new technologies with existing systems for optimal performance and compatibility",
+      "Oversaw network design, implementation, and management to maintain a secure and efficient infrastructure."
+    ],
+  },
+  {
+    logoPath: "/images/HCPSC-logo.png",
+    title: "IT Trainer & Server Engineer - Halishahar Cantonment Public School & College",
+    date: "January 2015 -  April 2016",
+    responsibilities: [
+      "Taught IT subjects, managed the college website, school management system, and provided user support.",
+      "Installed, configured, and troubleshot hardware, software, and networks while training teachers and staff."
+    ],
+  },
+  {
+    logoPath: "/images/SAPL-logo.png",
+    title: "Junior Executive , IT - Summit Alliance Port Limited",
+    date: "July 2012 -  October 2014",
+    responsibilities: [
+      "Provided IT support for hardware, software, networking, and device configuration, including CCTV and routers.",
+      "Managed IT inventory, supplier communication, and audit documentation, ensuring smooth procurement and troubleshooting."
     ],
   },
 ];

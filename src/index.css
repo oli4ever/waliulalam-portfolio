@@ -297,20 +297,6 @@ section {
     @media (min-width: 768px) {
       left: 2.5rem;
     }
-
-    @media (min-width: 1280px) {
-      left: 37.8vw;
-    }
-
-    @media (min-width: 1440px) {
-      left: 36.2vw;
-    }
-    @media (min-width: 1500px) {
-      left: 34.2vw;
-    }
-    @media (min-width: 1536px) {
-      left: 32.5vw;
-    }
   }
 
   .timeline {
@@ -318,7 +304,7 @@ section {
   }
 
   .timeline-logo {
-    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border-[8px] border-blue-100 bg-black-200;
+    @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-5 border-[8px] border-blue-100 bg-black-200;
   }
 
   .exp-card-wrapper {

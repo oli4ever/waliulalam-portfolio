@@ -4,8 +4,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { expCards } from "../constants";
 import TitleHeader from "../components/TitleHeader";
-import ContactExperience from "../components/models/contact/ContactExperience";
-// import GlowCard from "../components/GlowCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -95,27 +93,23 @@ const Experience = () => {
       id="experience"
       className="flex-center md:mt-40 mt-20 section-padding xl:px-0"
     >
-      <div className="w-full h-full md:px-20 px-5">
+      <div className="w-full h-full md:px-30 px-5">
         <TitleHeader title="My Work Experience" sub="💼 My Career Overview" />
-        <div className="mt-32 relative">
+        <div className="mt-32 relative lg:px-40">
           <div className="relative z-50 xl:space-y-32 space-y-10">
             {expCards.map((card) => (
               <div key={card.title} className="exp-card-wrapper">
-                <div className="max-lg:min-w-80 min-w-100 min-h-100">
-                  <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
-                    <ContactExperience />
-                  </div>
-                </div>
-                <div className="xl:w-4/6">
-                  <div className="flex items-start">
+                <div className="xl:w-4/6 flex items-center justify-center">
+                  <div className="flex items-center">
                     <div className="timeline-wrapper">
                       <div className="timeline" />
-                      <div className="gradient-line w-1 h-[60%] md:h-[53%] lg:h-[50%] xl:h-full" />
+                      <div className="gradient-line w-1 h-full" />
                     </div>
                     <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
                       <div className="timeline-logo">
                         <img src={card.logoPath} alt="logo" />
                       </div>
+
                       <div>
                         <h1 className="font-semibold text-3xl">{card.title}</h1>
                         <p className="my-5 text-white-50">
