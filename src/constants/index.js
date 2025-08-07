@@ -25,7 +25,7 @@ const words = [
 ];
 
 const counterItems = [
-  { value: 1, suffix: "+", label: "Years of Experience" },
+  { value: 12, suffix: "+", label: "Years of Experience" },
   { value: 40, suffix: "+", label: "Completed Projects" },
   { value: 95, suffix: "%", label: "Project Success Rate" },
 ];
@@ -409,7 +409,15 @@ const expCards = [
     responsibilities: [
       "Developed and implemented IT infrastructure strategies aligned with organizational goals for seamless operations.",
       "Ensured smooth integration of new technologies with existing systems for optimal performance and compatibility",
-      "Oversaw network design, implementation, and management to maintain a secure and efficient infrastructure."
+      "Oversaw network design, implementation, and management to maintain a secure and efficient infrastructure.",
+      "Led and inspired a team of IT professionals responsible for infrastructure operations.",
+      "Collaborated with other departments to understand their IT requirements and ensured alignment with infrastructure capabilities.",
+      "Collaborated with vendors to procure necessary hardware, software, and services.",
+      "Stay informed about industry trends and emerging technologies to identify opportunities for improvement.",
+      "Implemented best practices and methodologies for IT infrastructure management.",
+      "Identified and mitigated risks associated with IT infrastructure projects and operations.",
+      "Ensured IT infrastructure initiatives aligned with the overall business strategy and contributed to organizational success.",
+      "Ensured that IT infrastructure services meet the needs of internal customers and support business objectives."
     ],
   },
   {
