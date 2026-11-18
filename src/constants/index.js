@@ -391,9 +391,23 @@ const techStackIcons = [
 
 const expCards = [
   {
+    logoPath: "/images/ustc_logo.png",
+    title: "Senior IT Executive  - University of Science and Technology Chittagong (USTC)",
+    date: "January 3, 2026 – October 31, 2026",
+    responsibilities: [
+      "Administered and monitored IT operations of the institute.",
+      "Installed, configured and supported of large-scale network infrastructure including Switches, Routers and other network equipment.",
+      "Performed periodic security reviews and maintained network infrastructure to appropriate security standards.",
+      "Configured and managed the security systems with all IPPABX, CCTV Surveillance System, Attendance Devices and Access control etc.",
+      "Monitored hardware, software and managed system and service performance.",
+      "Provided technical security support, advice and further analysis on the products and technologies infrastructure.",
+      "Implemented several projects required by the owner of the organization."
+    ],
+  },
+  {
     logoPath: "/images/github-logo.png",
     title: "Self-Employed Frontend Developer - GitHub",
-    date: "February 2024 - December 2025",
+    date: "February 16, 2024 – December 31, 2025",
     responsibilities: [
       "Developed high-performance, SEO-optimized websites with lightning-fast load times to enhance user engagement and search rankings.",
       "Engineered mobile-first, fully responsive interfaces ensuring flawless cross-device compatibility.",
@@ -405,7 +419,7 @@ const expCards = [
   {
     logoPath: "/images/kenpark_logo.png",
     title: "Senior Executive, IT - Kenpark Bangladesh Apparel (Pvt.) Limited",
-    date: "April 2016 - January 2024",
+    date: "April 24, 2016 – January 22, 2024",
     responsibilities: [
       "Developed and implemented IT infrastructure strategies aligned with organizational goals for seamless operations.",
       "Ensured smooth integration of new technologies with existing systems for optimal performance and compatibility",
@@ -423,7 +437,7 @@ const expCards = [
   {
     logoPath: "/images/HCPSC-logo.png",
     title: "IT Trainer & Server Engineer - Halishahar Cantonment Public School & College",
-    date: "January 2015 -  April 2016",
+    date: "January 1, 2015 - April 10, 2016",
     responsibilities: [
       "Taught IT subjects, managed the college website, school management system, and provided user support.",
       "Installed, configured, and troubleshot hardware, software, and networks while training teachers and staff."
@@ -432,7 +446,7 @@ const expCards = [
   {
     logoPath: "/images/SAPL-logo.png",
     title: "Junior Executive , IT - Summit Alliance Port Limited",
-    date: "July 2012 -  October 2014",
+    date: "July 9, 2012 – October 30, 2014",
     responsibilities: [
       "Provided IT support for hardware, software, networking, and device configuration, including CCTV and routers.",
       "Managed IT inventory, supplier communication, and audit documentation, ensuring smooth procurement and troubleshooting."
