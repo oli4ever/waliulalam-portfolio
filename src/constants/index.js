@@ -393,7 +393,7 @@ const expCards = [
   {
     logoPath: "/images/github-logo.png",
     title: "Self-Employed Frontend Developer - GitHub",
-    date: "February 2024 - Present",
+    date: "February 2024 - December 2025",
     responsibilities: [
       "Developed high-performance, SEO-optimized websites with lightning-fast load times to enhance user engagement and search rankings.",
       "Engineered mobile-first, fully responsive interfaces ensuring flawless cross-device compatibility.",
